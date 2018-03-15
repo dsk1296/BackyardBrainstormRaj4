@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "47019828939",
+    "firebase_url": "https://rajasthanhackathonproject.firebaseio.com",
+    "project_id": "rajasthanhackathonproject",
+    "storage_bucket": "rajasthanhackathonproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47019828939:android:65b785793a11929a",
+        "android_client_info": {
+          "package_name": "hackathon.rajasthan.rajasthantourism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47019828939-sp4u6rm5mos8bepaqt9rhi925td963jq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQhwwukuILiH97mer-n9DeGPkXYZDvNlI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
