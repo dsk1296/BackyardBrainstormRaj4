@@ -19,9 +19,9 @@ import java.util.List;
 
 import hackathon.rajasthan.rajasthantourism.Interfaces.ItemClickListener;
 import hackathon.rajasthan.rajasthantourism.MainActivity;
-import hackathon.rajasthan.rajasthantourism.Model.Constants;
-import hackathon.rajasthan.rajasthantourism.Model.Destination;
+import hackathon.rajasthan.rajasthantourism.model.Constants;
 import hackathon.rajasthan.rajasthantourism.R;
+import hackathon.rajasthan.rajasthantourism.model.Destinations;
 
 /**
  * Created by MY on 15-03-2018.
@@ -30,7 +30,7 @@ import hackathon.rajasthan.rajasthantourism.R;
 public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapter.DestinationsViewHolder> {
 
     private Context context;
-    private List<Destination> listDestinations = new ArrayList<>();
+    private List<Destinations> listDestinations = new ArrayList<>();
 
     public class DestinationsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -59,7 +59,7 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
 
     }
 
-    public DestinationsAdapter(List<Destination> listDestinations, Context context) {
+    public DestinationsAdapter(List<Destinations> listDestinations, Context context) {
         this.listDestinations = listDestinations;
         this.context = context;
 
@@ -79,14 +79,14 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
             holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_coloured));
         }
         holder.mName.setText(listDestinations.get(position).getName());
-        Uri uri = Uri.parse(listDestinations.get(position).getDpUrl());
+        Uri uri = Uri.parse(listDestinations.get(position).getDpurl());
 
         Glide.with(context)
                 .load(uri)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mDp);
-        final Destination clickitem = listDestinations.get(position);
+        final Destinations clickitem = listDestinations.get(position);
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override

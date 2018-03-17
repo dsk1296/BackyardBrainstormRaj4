@@ -1,4 +1,4 @@
-package hackathon.rajasthan.rajasthantourism.Model;
+package hackathon.rajasthan.rajasthantourism.model;
 
 /**
  * Created by MY on 15-03-2018.

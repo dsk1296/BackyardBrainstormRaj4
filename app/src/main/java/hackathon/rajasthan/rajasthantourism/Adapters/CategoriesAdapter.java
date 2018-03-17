@@ -18,10 +18,10 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import hackathon.rajasthan.rajasthantourism.CategoryActivity;
 import hackathon.rajasthan.rajasthantourism.Interfaces.ItemClickListener;
-import hackathon.rajasthan.rajasthantourism.Model.Category;
+import hackathon.rajasthan.rajasthantourism.ProductActivity;
 import hackathon.rajasthan.rajasthantourism.R;
+import hackathon.rajasthan.rajasthantourism.model.Type;
 
 /**
  * Created by MY on 15-03-2018.
@@ -30,7 +30,7 @@ import hackathon.rajasthan.rajasthantourism.R;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder> {
 
     private Context context;
-    private List<Category> listCategories = new ArrayList<>();
+    private List<Type> listCategories = new ArrayList<>();
 
     public class CategoriesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -59,7 +59,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
     }
 
-    public CategoriesAdapter(List<Category> listCategories, Context context) {
+    public CategoriesAdapter(List<Type> listCategories, Context context) {
         this.listCategories = listCategories;
         this.context = context;
 
@@ -76,20 +76,20 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     public void onBindViewHolder(final CategoriesAdapter.CategoriesViewHolder holder, final int position) {
 
         holder.mName.setText(listCategories.get(position).getName());
-        Uri uri = Uri.parse(listCategories.get(position).getBgUrl());
+        Uri uri = Uri.parse(listCategories.get(position).getDpurl());
 
         Glide.with(context)
                 .load(uri)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mDp);
-        final Category clickitem = listCategories.get(position);
+        final Type clickitem = listCategories.get(position);
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                Intent intent = new Intent(context, CategoryActivity.class);
-                intent.putExtra("cuisineName", clickitem.getName());
+                Intent intent = new Intent(context, ProductActivity.class);
+                intent.putExtra("Name", clickitem.getName());
                 context.startActivity(intent);
             }
         });

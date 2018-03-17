@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RajasthanTourism</string>
+
+
+    <!-- Text size options-->
+    <string name="text_size_small">Small</string>
+    <string name="text_size_medium">Medium</string>
+    <string name="text_size_large">Large</string>
 </resources>

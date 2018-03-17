@@ -1,4 +1,4 @@
-package hackathon.rajasthan.rajasthantourism.Utilities;
+package hackathon.rajasthan.rajasthantourism.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

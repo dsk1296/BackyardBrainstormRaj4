@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import hackathon.rajasthan.rajasthantourism.Model.Constants;
+import hackathon.rajasthan.rajasthantourism.model.Constants;
 
 public class ProductListActivity extends AppCompatActivity {
 

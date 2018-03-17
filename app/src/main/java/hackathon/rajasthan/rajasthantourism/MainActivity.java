@@ -6,15 +6,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
+import java.util.ArrayList;
+
 import hackathon.rajasthan.rajasthantourism.Adapters.CategoriesAdapter;
 import hackathon.rajasthan.rajasthantourism.Adapters.DestinationsAdapter;
-import hackathon.rajasthan.rajasthantourism.Model.Constants;
-import hackathon.rajasthan.rajasthantourism.Utilities.InternetChecker;
+import hackathon.rajasthan.rajasthantourism.common.DatabaseFetch;
+import hackathon.rajasthan.rajasthantourism.model.Destinations;
+import hackathon.rajasthan.rajasthantourism.model.Type;
+import hackathon.rajasthan.rajasthantourism.utils.InternetChecker;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     CategoriesAdapter categoriesAdapter;
     private LinearLayoutManager categoriesLayoutManager;
     private LinearLayoutManager destinationsLayoutManager;
+    public static ArrayList<Destinations> mDisplayDestinationsList = new ArrayList<>();
+    public static ArrayList<Type> mDisplayTypeList = new ArrayList<>();
+    private DatabaseFetch databaseFetch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +47,22 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         constraintUnsuccessful = findViewById(R.id.constraintUnsuccessful);
 
+        databaseFetch = new DatabaseFetch();
+        databaseFetch.populateDisplayListFromDB(MainActivity.this);
+
         categoriesLayoutManager = new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false);
         destinationsLayoutManager = new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false);
 
+        recyclerCategories.setAdapter(new CategoriesAdapter(mDisplayTypeList,MainActivity.this));
+        recyclerDestinations.setAdapter(new DestinationsAdapter(mDisplayDestinationsList,MainActivity.this));
+/*
         if(InternetChecker.isOnline(MainActivity.this)){
-            if(/*SQL EMPTY*/){
+            if(*//*SQL EMPTY*//*){
                 //TODO:DOWNLOAD DATA FROM FIREBASE AND STORE IN SQL
             }
             else{
                 //TODO:CHECK VERSION OF DATA IN FIREBASE.
-                if(/*VERSION IN APP LESS THAN VERSION IN FIREBASE*/){
+                if(*//*VERSION IN APP LESS THAN VERSION IN FIREBASE*//*){
                     //TODO:DOWNLOAD DATA FROM FIREBASE AND STORE IN SQL
                 }
                 else{
@@ -57,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else{
-            if(/*IF DATA PRESENT IN SQL*/){
+            if(*//*IF DATA PRESENT IN SQL*//*){
                 //TODO: USE THE CURRENT DATA IN SQL
             }
             else{
                 progressBar.setVisibility(View.GONE);
                 constraintUnsuccessful.setVisibility(View.VISIBLE);
             }
-        }
+        }*/
     }
 
     public void refreshDestination(){
