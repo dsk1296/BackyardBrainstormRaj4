@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RajasthanTourism.iml" filepath="$PROJECT_DIR$/RajasthanTourism.iml" />
+      <module fileurl="file://C:\Aayush\Rajasthan Hackathon\Rajasthan Modified\RajasthanTourism\RajasthanTourism.iml" filepath="C:\Aayush\Rajasthan Hackathon\Rajasthan Modified\RajasthanTourism\RajasthanTourism.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Aayush\Rajasthan Hackathon\Rajasthan Modified\RajasthanTourism\app\app.iml" filepath="C:\Aayush\Rajasthan Hackathon\Rajasthan Modified\RajasthanTourism\app\app.iml" />
     </modules>
   </component>
 </project>
