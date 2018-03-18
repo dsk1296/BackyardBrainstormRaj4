@@ -29,7 +29,7 @@ public class ProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentSellerList = new Intent(ProductActivity.this, SellerListActivity.class);
-                intentSellerList.putExtra(/*Pass the product name here to use in the seller list activity to fetch sellers for the product*/);
+                //intentSellerList.putExtra(/*Pass the product name here to use in the seller list activity to fetch sellers for the product*/);
                 startActivity(intentSellerList);
             }
         });

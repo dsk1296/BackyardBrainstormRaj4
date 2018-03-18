@@ -6,4 +6,8 @@
     <string name="text_size_small">Small</string>
     <string name="text_size_medium">Medium</string>
     <string name="text_size_large">Large</string>
+
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">DNyLYB2gBH2N4QVDK2gCDhuTx</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">	Og7dFbJ3l2IcJuGVZ6ri6Ye2NwdFMTQEtHwWbRnV2VCHtwlygy</string>
+    <string name="title_activity_emergency">EmergencyActivity</string>
 </resources>
