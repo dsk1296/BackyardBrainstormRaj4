@@ -2,8 +2,10 @@ package hackathon.rajasthan.rajasthantourism.Adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
     private Context context;
     private List<Destinations> listDestinations = new ArrayList<>();
 
+
     public class DestinationsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mName;
@@ -59,12 +62,14 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
 
     }
 
+
     public DestinationsAdapter(List<Destinations> listDestinations, Context context) {
         this.listDestinations = listDestinations;
         this.context = context;
 
     }
 
+    @NonNull
     @Override
     public DestinationsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -73,29 +78,36 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
     }
 
     @Override
-    public void onBindViewHolder(final DestinationsViewHolder holder, final int position) {
+    public void onBindViewHolder(DestinationsViewHolder holder, final int position) {
 
         if(Constants.currentCity.equals(listDestinations.get(position).getName())){
             holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_coloured));
         }
-        holder.mName.setText(listDestinations.get(position).getName());
+        if (listDestinations.get(position).getName() != null) {
+            holder.mName.setText(listDestinations.get(position).getName());
+        }
+
+        if (listDestinations.get(position).getDpurl() !=null){
         Uri uri = Uri.parse(listDestinations.get(position).getDpurl());
 
         Glide.with(context)
                 .load(uri)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(RequestOptions.circleCropTransform())
-                .into(holder.mDp);
-        final Destinations clickitem = listDestinations.get(position);
+                .into(holder.mDp);}
+
+       final String clickitem = listDestinations.get(position).getName();
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                Constants.currentCity = clickitem.getName();
-                ((MainActivity)context).refreshDestination();
+                Constants.currentCity = clickitem;
+                ((MainActivity)context).refreshDestination(clickitem);
             }
         });
     }
+
+
 
     @Override
     public void onViewAttachedToWindow(DestinationsViewHolder holder) {

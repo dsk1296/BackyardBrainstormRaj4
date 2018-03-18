@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +43,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         public CategoriesViewHolder(View itemView) {
             super(itemView);
 
-            mName = itemView.findViewById(R.id.card_name);
-            mDp = itemView.findViewById(R.id.card_dp);
+            mName = itemView.findViewById(R.id.txtCategory);
+            mDp = itemView.findViewById(R.id.imgDownload);
 
             itemView.setOnClickListener(this);
         }
@@ -66,37 +67,45 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     }
 
     @Override
-    public CategoriesAdapter.CategoriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CategoriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.categories_item, parent, false);
-        return new CategoriesAdapter.CategoriesViewHolder(itemView);
+        return new CategoriesViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final CategoriesAdapter.CategoriesViewHolder holder, final int position) {
+    public void onBindViewHolder(CategoriesViewHolder holder, final int position) {
 
-        holder.mName.setText(listCategories.get(position).getName());
+        for (int i=0;i<listCategories.size();i++){
+            Log.d("typeLi",listCategories.get(i).getName());
+        }
+
+
+        if (listCategories.get(position).getName()!=null){
+        holder.mName.setText(listCategories.get(position).getName());}
+
+        if (listCategories.get(position).getDpurl()!=null){
         Uri uri = Uri.parse(listCategories.get(position).getDpurl());
-
         Glide.with(context)
                 .load(uri)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(RequestOptions.circleCropTransform())
-                .into(holder.mDp);
+                .into(holder.mDp);}
         final Type clickitem = listCategories.get(position);
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
                 Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra("Name", clickitem.getName());
+
+                intent.putExtra("TypeName", clickitem.getName());
                 context.startActivity(intent);
             }
         });
     }
 
     @Override
-    public void onViewAttachedToWindow(CategoriesAdapter.CategoriesViewHolder holder) {
+    public void onViewAttachedToWindow(CategoriesViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_colourless));
     }
