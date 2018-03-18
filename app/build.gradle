@@ -16,7 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-/*    buildToolsVersion '27.0.0'
+ /*   buildToolsVersion '26.1.0'
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -39,11 +39,16 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:cardview-v7:27.1.0'
     implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.0'
     implementation 'com.github.apl-devs:appintro:v4.2.2'
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+    compile'com.google.android.gms:play-services-location:11.8.0'
+    compile'com.google.android.gms:play-services-maps:11.8.0'
 
 }
 apply plugin: 'com.google.gms.google-services'

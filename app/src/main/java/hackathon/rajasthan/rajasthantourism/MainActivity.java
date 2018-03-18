@@ -16,6 +16,8 @@ import android.view.MenuItem;
 
 
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,13 +27,21 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import hackathon.rajasthan.rajasthantourism.Adapters.CategoriesAdapter;
 import hackathon.rajasthan.rajasthantourism.Adapters.DestinationsAdapter;
+
+
 import hackathon.rajasthan.rajasthantourism.database.Database;
-import hackathon.rajasthan.rajasthantourism.model.Constants;
+
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 import hackathon.rajasthan.rajasthantourism.model.Type;
 
@@ -50,6 +60,12 @@ public class MainActivity extends AppCompatActivity
 
     public  List<Type> mDisplayTypeList = new ArrayList<>();
     public  List<Destinations> mDisplayDestinationList = new ArrayList<>();
+    private LinearLayoutManager categoriesLayoutManager;
+    private LinearLayoutManager destinationsLayoutManager;
+    public static ArrayList<Destinations> mDisplayDestinationsList = new ArrayList<>();
+
+    private DatabaseReference mDatabase;
+    private FragmentPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +81,7 @@ public class MainActivity extends AppCompatActivity
         constraintUnsuccessful = findViewById(R.id.constraintUnsuccessful);
 
 
-        LinearLayoutManager categoriesLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
-        LinearLayoutManager destinationsLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerCategories.setLayoutManager(categoriesLayoutManager);
-        recyclerDestinations.setLayoutManager(destinationsLayoutManager);
+
 
 
 
@@ -109,6 +122,47 @@ public class MainActivity extends AppCompatActivity
                 constraintUnsuccessful.setVisibility(View.VISIBLE);
             }
         }*/
+
+        //---------------------Viewpager Code begins here--------------------------------------
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("BannerImages");
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            ArrayList<String> bannerImgUrls= new ArrayList<>();
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    bannerImgUrls.add(snap.getValue(String.class));
+                }
+
+                adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+                    @Override
+                    public Fragment getItem(int position) {
+                        return new BannerMainFragment(bannerImgUrls.get(position));
+                    }
+
+                    @Override
+                    public int getCount() {
+                        return bannerImgUrls.size();
+                    }
+                };
+                autoScrollViewPager.setAdapter(adapter);
+                autoScrollViewPager.startAutoScroll();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+
+
+
 
 
 
@@ -191,8 +245,15 @@ public class MainActivity extends AppCompatActivity
             Type type = new Database(MainActivity.this).getFilteredTypeObject(TypeNames.get(i));
             typeList.add(type);
         }
-        
+
 
         categoriesAdapter.notifyDataSetChanged();
     }
+
 }
+
+
+
+
+
+
