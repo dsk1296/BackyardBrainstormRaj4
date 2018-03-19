@@ -114,7 +114,7 @@ public class Database extends SQLiteAssetHelper {
         SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-        String[] sqlSelect = {"productType"};
+        String[] sqlSelect = {"DISTINCT productType"};
         String sqlTable= "Products";
         String selection = "productDestination = ?";
         String[] selectionArgs = {destinationName};
@@ -159,7 +159,7 @@ public class Database extends SQLiteAssetHelper {
         SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-        String[] sqlSelect = {"productSubtype"};
+        String[] sqlSelect = {"DISTINCT productSubtype"};
         String sqlTable= "Products";
         String selection = "productDestination = ? and productType = ?";
         String[] selectionArgs = {destinationName,typeName};
@@ -172,6 +172,79 @@ public class Database extends SQLiteAssetHelper {
                 result.add(new Type(
                         c.getString(c.getColumnIndex("productSubtype")),
                         c.getString(c.getColumnIndex("productSubtype"))
+
+                ));}
+            while (c.moveToNext());
+        }
+        return result;
+
+    }
+    public List<Type> getAllSubtype(String typeName){
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = {"DISTINCT productSubtype"};
+        String sqlTable= "Products";
+        String selection = "productType = ?";
+        String[] selectionArgs = {typeName};
+
+        qb.setTables(sqlTable);
+        Cursor c = qb.query(db,sqlSelect,selection,selectionArgs,null,null,null);
+        final List<Type> result =new ArrayList<>();
+        if(c != null && c.moveToFirst()){
+            do {
+                result.add(new Type(
+                        c.getString(c.getColumnIndex("productSubtype")),
+                        c.getString(c.getColumnIndex("productSubtype"))
+
+                ));}
+            while (c.moveToNext());
+        }
+        return result;
+
+    }
+
+    public List<Type> getProductList(String destName,String typeName,String subtype){
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = {"productName,productUrl"};
+        String sqlTable= "Products";
+        String selection = "productDestination = ? and productType = ? and productSubtype = ?";
+        String[] selectionArgs = {destName,typeName,subtype};
+
+        qb.setTables(sqlTable);
+        Cursor c = qb.query(db,sqlSelect,selection,selectionArgs,null,null,null);
+        final List<Type> result =new ArrayList<>();
+        if(c != null && c.moveToFirst()){
+            do {
+                result.add(new Type(
+                        c.getString(c.getColumnIndex("productName")),
+                        c.getString(c.getColumnIndex("productUrl"))
+
+                ));}
+            while (c.moveToNext());
+        }
+        return result;
+
+    }
+    public List<Type> getProductAllList(String typeName,String subtype){
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = {"productName,productUrl"};
+        String sqlTable= "Products";
+        String selection = "productType = ? and productSubtype = ?";
+        String[] selectionArgs = {typeName,subtype};
+
+        qb.setTables(sqlTable);
+        Cursor c = qb.query(db,sqlSelect,selection,selectionArgs,null,null,null);
+        final List<Type> result =new ArrayList<>();
+        if(c != null && c.moveToFirst()){
+            do {
+                result.add(new Type(
+                        c.getString(c.getColumnIndex("productName")),
+                        c.getString(c.getColumnIndex("productUrl"))
 
                 ));}
             while (c.moveToNext());

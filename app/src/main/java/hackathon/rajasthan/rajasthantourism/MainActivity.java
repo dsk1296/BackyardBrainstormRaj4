@@ -240,9 +240,9 @@ public class MainActivity extends AppCompatActivity
             Type type = new Database(MainActivity.this).getFilteredTypeObject(TypeNames.get(i));
             typeList.add(type);
         }
-
-
-        categoriesAdapter.notifyDataSetChanged();
+        recyclerCategories.setAdapter(new CategoriesAdapter(typeList,MainActivity.this));
+        recyclerCategories.invalidate();
+        //categoriesAdapter.notifyDataSetChanged();
     }
 
 }
