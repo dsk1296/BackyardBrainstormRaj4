@@ -2,38 +2,33 @@ package hackathon.rajasthan.rajasthantourism.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by Deepak on 11/18/2017.
  */
 
-public class Product implements Serializable {
+public class Products implements Serializable {
 
-    private String name,url,type, subtype,destination,description,uid;
+    private String name,url,type,subtype,destination,desc;
+    @JsonIgnore
+    private String uid;
+    @JsonIgnore
     private ArrayList<Seller> seller;
-    public Product(){
+
+    public Products() {
+
     }
 
-
-    public Product(String name, String url, String type, String subtype, String destination, String description,String uid) {
+    public Products(String name, String subtype, String destination, String type, String url, String desc, String uid) {
         this.name = name;
         this.url = url;
         this.type = type;
         this.subtype = subtype;
         this.destination = destination;
-        this.description = description;
+        this.desc = desc;
         this.uid = uid;
-
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
 
     public String getName() {
         return name;
@@ -75,12 +70,12 @@ public class Product implements Serializable {
         this.destination = destination;
     }
 
-    public ArrayList<Seller> getSeller() {
-        return seller;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setSeller(ArrayList<Seller> seller) {
-        this.seller = seller;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getUid() {
@@ -89,5 +84,13 @@ public class Product implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public ArrayList<Seller> getSeller() {
+        return seller;
+    }
+
+    public void setSeller(ArrayList<Seller> seller) {
+        this.seller = seller;
     }
 }

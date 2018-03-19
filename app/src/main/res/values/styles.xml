@@ -13,6 +13,10 @@
         <item name="layout_bg">@color/white</item>
         <item name="category_title">@color/gray_dark</item>
         <item name="android:windowBackground">@color/off_whiter</item>
+        <item name="cardViewStyle">@style/CardView</item>
+
+
+
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>

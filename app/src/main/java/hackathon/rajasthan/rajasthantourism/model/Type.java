@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Type {
     private String name,dpurl;
     @JsonIgnore
-    ArrayList<Product> TypeProductList =new ArrayList<>();
+    ArrayList<Products> typeProductsList =new ArrayList<>();
 
     public Type(){
 
@@ -38,11 +38,11 @@ public class Type {
         this.dpurl = dpurl;
     }
 
-    public ArrayList<Product> getTypeProductList() {
-        return TypeProductList;
+    public ArrayList<Products> getTypeProductsList() {
+        return typeProductsList;
     }
 
-    public void setTypeProductList(ArrayList<Product> typeProductList) {
-        this.TypeProductList = typeProductList;
+    public void setTypeProductsList(ArrayList<Products> typeProductsList) {
+        this.typeProductsList = typeProductsList;
     }
 }

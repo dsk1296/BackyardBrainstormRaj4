@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Destinations {
     private String name,dpurl;
     @JsonIgnore
-    ArrayList<Product> destinationProductList =new ArrayList<>();
+    ArrayList<Products> destinationProductsList =new ArrayList<>();
 
     public Destinations(){
 
@@ -38,11 +38,11 @@ public class Destinations {
         this.dpurl = dpurl;
     }
 
-    public ArrayList<Product> getDestinationProductList() {
-        return destinationProductList;
+    public ArrayList<Products> getDestinationProductsList() {
+        return destinationProductsList;
     }
 
-    public void setDestinationProductList(ArrayList<Product> destinationProductList) {
-        this.destinationProductList = destinationProductList;
+    public void setDestinationProductsList(ArrayList<Products> destinationProductsList) {
+        this.destinationProductsList = destinationProductsList;
     }
 }

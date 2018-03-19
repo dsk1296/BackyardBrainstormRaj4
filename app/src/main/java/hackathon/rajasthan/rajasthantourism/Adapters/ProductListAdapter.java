@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hackathon.rajasthan.rajasthantourism.Interfaces.ItemClickListener;
-import hackathon.rajasthan.rajasthantourism.SubtypeListActivity;
+import hackathon.rajasthan.rajasthantourism.ProductListActivity;
 import hackathon.rajasthan.rajasthantourism.R;
 import hackathon.rajasthan.rajasthantourism.model.Type;
 
@@ -27,19 +27,20 @@ import hackathon.rajasthan.rajasthantourism.model.Type;
  * Created by MY on 15-03-2018.
  */
 
-public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.SubtypeViewHolder> {
 
     private Context context;
     private List<Type> listCategories = new ArrayList<>();
+    private String TypeName;
 
-    public class CategoriesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class SubtypeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mName;
         ImageView mDp;
         ItemClickListener itemClickListener;
 
 
-        public CategoriesViewHolder(View itemView) {
+        public SubtypeViewHolder(View itemView) {
             super(itemView);
 
             mName = itemView.findViewById(R.id.txtCategory);
@@ -59,21 +60,22 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
     }
 
-    public CategoriesAdapter(List<Type> listCategories, Context context) {
+    public ProductListAdapter(List<Type> listCategories, Context context, String typeName) {
         this.listCategories = listCategories;
         this.context = context;
+        this.TypeName = typeName;
 
     }
 
     @Override
-    public CategoriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SubtypeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.categories_item, parent, false);
-        return new CategoriesViewHolder(itemView);
+        return new SubtypeViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(CategoriesViewHolder holder, final int position) {
+    public void onBindViewHolder(SubtypeViewHolder holder, final int position) {
 
         for (int i=0;i<listCategories.size();i++){
             Log.d("typeLi",listCategories.get(i).getName());
@@ -94,16 +96,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                Intent intent = new Intent(context, SubtypeListActivity.class);
+                Intent intent = new Intent(context, ProductListActivity.class);
 
-                intent.putExtra("TypeName", clickitem.getName());
+                intent.putExtra("TypeName", TypeName);
+                intent.putExtra("SubtypeName", clickitem.getName());
                 context.startActivity(intent);
             }
         });
     }
 
     @Override
-    public void onViewAttachedToWindow(CategoriesViewHolder holder) {
+    public void onViewAttachedToWindow(SubtypeViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_colourless));
     }

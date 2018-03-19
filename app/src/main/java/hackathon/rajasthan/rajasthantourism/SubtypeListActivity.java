@@ -9,20 +9,19 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import hackathon.rajasthan.rajasthantourism.Adapters.ProductListAdapter;
 import hackathon.rajasthan.rajasthantourism.Adapters.SubtypeAdapter;
 import hackathon.rajasthan.rajasthantourism.database.Database;
 import hackathon.rajasthan.rajasthantourism.model.Constants;
 import hackathon.rajasthan.rajasthantourism.model.Type;
 
-public class ProductListActivity extends AppCompatActivity {
+public class SubtypeListActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     RecyclerView ProductListRecycler;
     LinearLayoutManager linearLayoutManager;
-    ProductListAdapter productListAdapter;
+    SubtypeAdapter subtypeAdapter;
     List<Type> typeList = new ArrayList<>();
-    String TypeName,SubtypeName;
+    String TypeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,28 +32,27 @@ public class ProductListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Profile");
+        getSupportActionBar().setTitle("Subtypes");
         ProductListRecycler = findViewById(R.id.product_list_recycler);
-        linearLayoutManager = new LinearLayoutManager(ProductListActivity.this,LinearLayoutManager.VERTICAL,false);
+        linearLayoutManager = new LinearLayoutManager(SubtypeListActivity.this,LinearLayoutManager.VERTICAL,false);
         ProductListRecycler.setLayoutManager(linearLayoutManager);
         if (getIntent()!=null){
             TypeName = getIntent().getStringExtra("TypeName");
-            SubtypeName = getIntent().getStringExtra("SubtypeName");
         }
         if(Constants.currentCity.equals("")){
 
-            typeList = new Database(ProductListActivity.this).getProductAllList(TypeName,SubtypeName);
-            productListAdapter = new ProductListAdapter(typeList,ProductListActivity.this,TypeName);
-            ProductListRecycler.setAdapter(productListAdapter);
+            typeList = new Database(SubtypeListActivity.this).getAllSubtype(TypeName);
+            subtypeAdapter = new SubtypeAdapter(typeList,SubtypeListActivity.this,TypeName);
+            ProductListRecycler.setAdapter(subtypeAdapter);
 
 
             //TODO: LOAD ALL THE SUBTYPES OF WHOLE RAJASTHAN FROM SQL TO RECYCLERVIEW
         }
         else{
 
-            typeList = new Database(ProductListActivity.this).getProductList(Constants.currentCity,TypeName,SubtypeName);
-            productListAdapter = new ProductListAdapter(typeList,ProductListActivity.this,TypeName);
-            ProductListRecycler.setAdapter(productListAdapter);
+            typeList = new Database(SubtypeListActivity.this).getSubtype(Constants.currentCity,TypeName);
+            subtypeAdapter = new SubtypeAdapter(typeList,SubtypeListActivity.this,TypeName);
+            ProductListRecycler.setAdapter(subtypeAdapter);
             //TODO: LOAD ALL SUBTYPES OF THE CURRENT CITY FROM SQL TO THE RECYCLERVIEW
         }
 

@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_account"
             android:title="Account" />
-        <item
-            android:id="@+id/nav_favourites"
-            android:title="Favourites" />
-        <item
-            android:id="@+id/nav_orders"
-            android:title="My Orders" />
-        <item
-            android:id="@+id/nav_cart"
-            android:title="Cart" />
-        <item
-            android:id="@+id/nav_change_location"
-            android:title="Change Location" />
-    </group>
+
 
 </menu>

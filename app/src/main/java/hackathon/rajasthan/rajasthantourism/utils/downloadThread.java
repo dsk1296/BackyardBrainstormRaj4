@@ -4,6 +4,7 @@ package hackathon.rajasthan.rajasthantourism.utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 
@@ -11,14 +12,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import hackathon.rajasthan.rajasthantourism.database.Database;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
-import hackathon.rajasthan.rajasthantourism.model.Product;
-import hackathon.rajasthan.rajasthantourism.model.Seller;
+import hackathon.rajasthan.rajasthantourism.model.Products;
 import hackathon.rajasthan.rajasthantourism.model.Type;
 
 
@@ -26,125 +27,172 @@ public class downloadThread implements Runnable {
     Thread thread;
     Context mContext;
 
-    boolean download1;
+    boolean download1,download2,download3;
 
-    public static ArrayList<Type> mTypeList=new ArrayList<>();
-    public static ArrayList<Destinations> destinationsList =new ArrayList<>();
-    public static HashMap<String,ArrayList<Product>> destinationMapping =new HashMap<>();
-    public static HashMap<String,ArrayList<Product>> typeMapping =new HashMap<>();
+    public  ArrayList<Type> mTypeList=new ArrayList<>();
+    public  ArrayList<Destinations> destinationsList =new ArrayList<>();
+    public static HashMap<String,ArrayList<Products>> destinationMapping =new HashMap<>();
+    public static HashMap<String,ArrayList<Products>> typeMapping =new HashMap<>();
     public static HashMap<String,String> mtypeMap =new HashMap<>();
     public static HashMap<String,String> mDestinationMap =new HashMap<>();
 
-    ArrayList<Product> mainGIList=new ArrayList<>();
+    ArrayList<Products> mainGIList=new ArrayList<>();
 
     private DatabaseReference mRef1,mRef2,mRef3;
 
-    Database databaseInstance;
-    SQLiteDatabase database;
+
 
     public downloadThread(Context context) {
         this.mContext=context;
         this.thread = new Thread(this,"downloadThread");
         thread.start();
-        databaseInstance = new Database(mContext);
-        database = databaseInstance.getWritableDatabase();
     }
 
     @Override
     public void run() {
 
-        mRef1 = FirebaseDatabase.getInstance().getReference("Products");
+
         startDownload();
     }
 
     void startDownload(){
 
-        mRef1.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot oneGIData : dataSnapshot.getChildren()) {
-                    Product currentGI;
-                    ArrayList<Seller> oneGISellersList=new ArrayList<>();
-                    currentGI = oneGIData.getValue(Product.class);
-                    String currentUID=oneGIData.getKey();
-                    currentGI.setUid(currentUID);
+        mRef1 = FirebaseDatabase.getInstance().getReference("Products");
+        mRef2 = FirebaseDatabase.getInstance().getReference("Destinations");
+        mRef3 = FirebaseDatabase.getInstance().getReference("Type");
 
+        mRef1.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            Log.d("full",dataSnapshot.toString());
+            Products currentProduct;
+            for (DataSnapshot oneData : dataSnapshot.getChildren()) {
+                Log.d("oneData",oneData.toString());
+                 currentProduct =  oneData.getValue(Products.class);
 
-                    DataSnapshot sellerData=oneGIData.child("seller");
-                    for(DataSnapshot oneSellerData : sellerData.getChildren()){
-                        Seller oneSeller=oneSellerData.getValue(Seller.class);
-                        oneSeller.setUid(currentUID);
-                        oneGISellersList.add(oneSeller);
-                    }
-                    currentGI.setSeller(oneGISellersList);
-                    mainGIList.add(currentGI);
+                String currentUID=oneData.getKey();
+                currentProduct.setUid(currentUID);
+/*
+
+                DataSnapshot sellerData=oneData.child("seller");
+                ArrayList<Seller> oneSellersList= new ArrayList<>();
+
+                for(DataSnapshot oneSellerData : sellerData.getChildren()){
+                    Seller oneSeller=oneSellerData.getValue(Seller.class);
+                    oneSeller.setUid(currentUID);
+                    oneSellersList.add(oneSeller);
                 }
-                for (int i = 0; i < mainGIList.size(); i++) {
-                    String currentDestination = mainGIList.get(i).getDestination();
-                    String currentType = mainGIList.get(i).getType();
-                    ArrayList<Product> destinationList = destinationMapping.get(currentDestination);
-                    ArrayList<Product> typeList = typeMapping.get(currentType);
+                currentProduct.setSeller(oneSellersList);*/
+                mainGIList.add(currentProduct);
+            }
+    /*        for (int i = 0; i < mainGIList.size(); i++) {
 
-                    if (destinationList == null) {
-                        destinationList = new ArrayList<>();
-                    }
+                String currentDestination = mainGIList.get(i).getDestination();
+                String currentType = mainGIList.get(i).getType();
+                ArrayList<Products> destinationList = destinationMapping.get(currentDestination);
+                ArrayList<Products> typeList = typeMapping.get(currentType);
 
-                    destinationList.add(mainGIList.get(i));
-                    destinationMapping.put(currentDestination, destinationList);
+                if (destinationList == null) {
+                    destinationList = new ArrayList<>();
+                }
+                if (typeList == null) {
+                    typeList = new ArrayList<>();
+                }
 
-                }
-                for (String oneDestinationName : destinationMapping.keySet()) {
-                    Destinations oneState = new Destinations();
-                    oneState.setName(oneDestinationName);
-                    ArrayList<Product> k = destinationMapping.get(oneDestinationName);
-                    oneState.setDestinationProductList(k);
-                    destinationsList.add(oneState);
-                }
-                for (String oneTypeName : typeMapping.keySet()) {
-                    Type oneType = new Type();
-                    oneType.setName(oneTypeName);
-                    ArrayList<Product> k = typeMapping.get(oneTypeName);
-                    oneType.setTypeProductList(k);
-                    mTypeList.add(oneType);
-                }
-                Toast.makeText(mContext, "download 1 success", Toast.LENGTH_SHORT).show();
+                destinationList.add(mainGIList.get(i));
+                destinationMapping.put(currentDestination, destinationList);
+
+                typeList.add(mainGIList.get(i));
+                typeMapping.put(currentType, typeList);
+
+            }
+            for (String oneDestinationName : destinationMapping.keySet()) {
+                Destinations oneDestination = new Destinations();
+                oneDestination.setName(oneDestinationName);
+                ArrayList<Products> k = destinationMapping.get(oneDestinationName);
+                oneDestination.setDestinationProductsList(k);
+                destinationsList.add(oneDestination);
+            }
+            for (String oneTypeName : typeMapping.keySet()) {
+                Type oneType = new Type();
+                oneType.setName(oneTypeName);
+                ArrayList<Products> k = typeMapping.get(oneTypeName);
+                oneType.setTypeProductsList(k);
+                mTypeList.add(oneType);
+            }*/
+            Toast.makeText(mContext, "download 1 success", Toast.LENGTH_LONG).show();
 //                HomePage.statesAdapter.notifyDataSetChanged();
 //                HomePage.categoryAdapter.notifyDataSetChanged();
-                download1 = true;
+            download1 = true;
+            shallStartDataLoading();
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Toast.makeText(mContext, "Download 1 cancelled", Toast.LENGTH_SHORT).show();
+
+        }
+    });
+        mRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot oneData : dataSnapshot.getChildren()) {
+                    Destinations oneDest = oneData.getValue(Destinations.class);
+                    destinationsList.add(oneDest);
+                }
+                Toast.makeText(mContext, "Download 2 Success", Toast.LENGTH_SHORT).show();
+//                HomePage.statesAdapter.notifyDataSetChanged();
+                download2 = true;
                 shallStartDataLoading();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(mContext, "Download 1 cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Download 2 Cancelled", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+
+        mRef3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot oneTypeData : dataSnapshot.getChildren()) {
+
+                    Type oneType = oneTypeData.getValue(Type.class);
+                    mTypeList.add(oneType);
+                }
+                Toast.makeText(mContext, "Download 3 Success", Toast.LENGTH_SHORT).show();
+//                HomePage.categoryAdapter.notifyDataSetChanged();
+                download3 = true;
+                shallStartDataLoading();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(mContext,databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     void shallStartDataLoading(){
-        if(download1){
+        if(download1&download2&download3){
             for(int i=0;i<mainGIList.size();i++){
-                ContentValues contentValuesGI=new ContentValues();
-                ContentValues contentValuesGISearch=new ContentValues();
+                new Database(mContext).addProducts(mainGIList.get(i));
 
-                contentValuesGI.put(Database.PRODUCT_NAME,mainGIList.get(i).getName());
-                contentValuesGI.put(Database.PRODUCT_TYPE,mainGIList.get(i).getSubtype());
-                contentValuesGI.put(Database.PRODUCT_SUBTYPE,mainGIList.get(i).getType());
-                contentValuesGI.put(Database.PRODUCT_DP_URL,mainGIList.get(i).getUrl());
-                contentValuesGI.put(Database.PRODUCT_DESTINATION,mainGIList.get(i).getDestination());
-                contentValuesGI.put(Database.GI_PRODUCT_UID,mainGIList.get(i).getUid());
-                contentValuesGI.put(Database.GI_PRODUCT_DESCRIPTION,mainGIList.get(i).getDescription());
+            }
+            for (int i=0;i<destinationsList.size();i++){
 
-                database.insert(Database.PRODUCT_TABLE,null,contentValuesGI);
+                new Database(mContext).addDestinations(destinationsList.get(i));
+            }
+            for (int i=0;i<mTypeList.size();i++){
 
-                contentValuesGISearch.put(Database.SEARCH_NAME,mainGIList.get(i).getName());
-                contentValuesGISearch.put(Database.SEARCH_TYPE,Database.PRODUCT);
+                new Database(mContext).addTypes(mTypeList.get(i));
+            }
 
-                database.insert(Database.SEARCH_TABLE,null,contentValuesGISearch);
 
-                ArrayList<Seller> currentSellerList=mainGIList.get(i).getSeller();
+
+/*                ArrayList<Seller> currentSellerList=mainGIList.get(i).getSeller();
                 for(int j=0;j<currentSellerList.size();j++){
                     Seller oneSeller=currentSellerList.get(j);
 
@@ -164,26 +212,29 @@ public class downloadThread implements Runnable {
                     contentValuesSellerSearch.put(Database.SEARCH_TYPE,Database.SELLER);
 
                     database.insert(Database.SEARCH_TABLE,null,contentValuesSellerSearch);
-                }
-            }
-            for(int i = 0; i< destinationsList.size(); i++){
+                }*/
+
+  /*          for(int i = 0; i< destinationsList.size(); i++){
+                Toast.makeText(mContext,destinationsList.size()+"",Toast.LENGTH_LONG).show();
                 Destinations currentState= destinationsList.get(i);
                 String dpurl= mDestinationMap.get(currentState.getName());
 
-                ContentValues contentValuesState=new ContentValues();
+                ContentValues contentValuesDestination=new ContentValues();
                 ContentValues contentValuesStateSearch=new ContentValues();
 
-                contentValuesState.put(Database.DESTINATION_NAME,currentState.getName());
-                contentValuesState.put(Database.DESTINATION_DP_URL,dpurl);
+                contentValuesDestination.put(Database.DESTINATION_NAME,currentState.getName());
+                contentValuesDestination.put(Database.DESTINATION_DP_URL,dpurl);
 
-                database.insert(Database.DESTINATION_TABLE,null,contentValuesState);
+                database.insert(Database.DESTINATION_TABLE,null,contentValuesDestination);
 
                 contentValuesStateSearch.put(Database.SEARCH_NAME,currentState.getName());
                 contentValuesStateSearch.put(Database.SEARCH_TYPE,Database.STATE);
 
                 database.insert(Database.SEARCH_TABLE,null,contentValuesStateSearch);
             }
+
             for(int i=0;i<mTypeList.size();i++){
+                Toast.makeText(mContext,mTypeList.size()+"",Toast.LENGTH_LONG).show();
                 Type currentCategory=mTypeList.get(i);
                 String dpurl= mtypeMap.get(currentCategory.getName());
 
@@ -199,7 +250,7 @@ public class downloadThread implements Runnable {
                 contentValuesCategotySearch.put(Database.SEARCH_TYPE,Database.TYPE);
 
                 database.insert(Database.SEARCH_TABLE,null,contentValuesCategotySearch);
-            }
+            }*/
         }
     }
 }

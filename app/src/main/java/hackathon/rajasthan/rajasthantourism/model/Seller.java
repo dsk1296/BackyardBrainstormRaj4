@@ -1,5 +1,7 @@
 package hackathon.rajasthan.rajasthantourism.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 
@@ -7,6 +9,7 @@ public class Seller implements Serializable {
 
     private String name,address,contact,type,desc;
     private double lon,lat;
+    @JsonIgnore
     private String uid;
 
     public Seller(){
