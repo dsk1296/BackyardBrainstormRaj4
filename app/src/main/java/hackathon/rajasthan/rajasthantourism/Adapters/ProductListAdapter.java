@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hackathon.rajasthan.rajasthantourism.Interfaces.ItemClickListener;
+import hackathon.rajasthan.rajasthantourism.ProductActivity;
 import hackathon.rajasthan.rajasthantourism.ProductListActivity;
 import hackathon.rajasthan.rajasthantourism.R;
 import hackathon.rajasthan.rajasthantourism.model.Type;
@@ -96,10 +97,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                Intent intent = new Intent(context, ProductListActivity.class);
+                Intent intent = new Intent(context, ProductActivity.class);
 
-                intent.putExtra("TypeName", TypeName);
-                intent.putExtra("SubtypeName", clickitem.getName());
+                intent.putExtra("ProductName", clickitem.getName());
                 context.startActivity(intent);
             }
         });

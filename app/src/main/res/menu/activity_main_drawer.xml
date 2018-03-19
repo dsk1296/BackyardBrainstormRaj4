@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
         <item
-            android:id="@+id/nav_account"
-            android:title="Account" />
+            android:id="@+id/nav_nearme"
+            android:title="Discover Near Me"
+            android:icon="@drawable/ic_near_me_black_24dp"/>
+        <item
+            android:id="@+id/nav_social_feed"
+            android:title="Social Feed"
+            android:icon="@drawable/ic_view_list_black_24dp"/>
+        <item
+            android:id="@+id/nav_sos"
+            android:title="SOS"
+            android:icon="@drawable/ic_warning_black_24dp"/>
+        <item
+            android:id="@+id/nav_pined"
+            android:title="Pined"
+            android:icon="@drawable/ic_bookmark_black_24dp"/>
+        <item
+            android:id="@+id/nav_helpline"
+            android:title="Helpline"
+            android:icon="@drawable/ic_call_black_24dp"/>
+
 
 
 </menu>

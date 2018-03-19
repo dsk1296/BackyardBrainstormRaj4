@@ -14,7 +14,7 @@ public class Products implements Serializable {
     @JsonIgnore
     private String uid;
     @JsonIgnore
-    private ArrayList<Seller> seller;
+    private ArrayList<String> seller;
 
     public Products() {
 
@@ -86,11 +86,11 @@ public class Products implements Serializable {
         this.uid = uid;
     }
 
-    public ArrayList<Seller> getSeller() {
+    public ArrayList<String> getSeller() {
         return seller;
     }
 
-    public void setSeller(ArrayList<Seller> seller) {
+    public void setSeller(ArrayList<String> seller) {
         this.seller = seller;
     }
 }
