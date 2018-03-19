@@ -43,7 +43,8 @@
         <activity android:name=".SocialFeedActivity" />
         <activity android:name=".HelplineActivity" />
         <activity android:name=".EmergencyActivity"/>
-        <activity android:name=".NearMe"></activity>
+        <activity android:name=".NearMe" />
+        <activity android:name=".ProductListActivity"/>
     </application>
 
 </manifest>
