@@ -20,6 +20,7 @@ import java.util.HashMap;
 import hackathon.rajasthan.rajasthantourism.database.Database;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 import hackathon.rajasthan.rajasthantourism.model.Products;
+import hackathon.rajasthan.rajasthantourism.model.Seller;
 import hackathon.rajasthan.rajasthantourism.model.Type;
 
 
@@ -27,9 +28,11 @@ public class downloadThread implements Runnable {
     Thread thread;
     Context mContext;
 
-    boolean download1,download2,download3;
+    boolean download1,download2,download3,download4,download5;
 
     public  ArrayList<Type> mTypeList=new ArrayList<>();
+    public  ArrayList<Seller> mSellerList=new ArrayList<>();
+    public  ArrayList<Type> mSubtypeList=new ArrayList<>();
     public  ArrayList<Destinations> destinationsList =new ArrayList<>();
     public static HashMap<String,ArrayList<Products>> destinationMapping =new HashMap<>();
     public static HashMap<String,ArrayList<Products>> typeMapping =new HashMap<>();
@@ -38,7 +41,7 @@ public class downloadThread implements Runnable {
 
     ArrayList<Products> mainGIList=new ArrayList<>();
 
-    private DatabaseReference mRef1,mRef2,mRef3;
+    private DatabaseReference mRef1,mRef2,mRef3,mRef4,mRef5;
 
 
 
@@ -60,6 +63,8 @@ public class downloadThread implements Runnable {
         mRef1 = FirebaseDatabase.getInstance().getReference("Products");
         mRef2 = FirebaseDatabase.getInstance().getReference("Destinations");
         mRef3 = FirebaseDatabase.getInstance().getReference("Type");
+        mRef5 = FirebaseDatabase.getInstance().getReference("Subtype");
+        mRef4 = FirebaseDatabase.getInstance().getReference("Sellers");
 
         mRef1.addValueEventListener(new ValueEventListener() {
         @Override
@@ -72,17 +77,15 @@ public class downloadThread implements Runnable {
 
                 String currentUID=oneData.getKey();
                 currentProduct.setUid(currentUID);
-/*
 
-                DataSnapshot sellerData=oneData.child("seller");
-                ArrayList<Seller> oneSellersList= new ArrayList<>();
+                DataSnapshot sellerData=oneData.child("sellers");
+                ArrayList<String> oneSellersList= new ArrayList<>();
 
                 for(DataSnapshot oneSellerData : sellerData.getChildren()){
-                    Seller oneSeller=oneSellerData.getValue(Seller.class);
-                    oneSeller.setUid(currentUID);
+                    String oneSeller=oneSellerData.getValue(String.class);
                     oneSellersList.add(oneSeller);
                 }
-                currentProduct.setSeller(oneSellersList);*/
+                currentProduct.setSeller(oneSellersList);
                 mainGIList.add(currentProduct);
             }
     /*        for (int i = 0; i < mainGIList.size(); i++) {
@@ -172,11 +175,48 @@ public class downloadThread implements Runnable {
                 Toast.makeText(mContext,databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        mRef4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot oneSellerData : dataSnapshot.getChildren()) {
+
+                    Seller oneSeller = oneSellerData.getValue(Seller.class);
+                    mSellerList.add(oneSeller);
+                }
+                Toast.makeText(mContext, "Download 4 Success", Toast.LENGTH_SHORT).show();
+//                HomePage.categoryAdapter.notifyDataSetChanged();
+                download4 = true;
+                shallStartDataLoading();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(mContext,databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mRef5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot oneSubtypeData : dataSnapshot.getChildren()) {
+
+                    Type oneSubtype = oneSubtypeData.getValue(Type.class);
+                    mSubtypeList.add(oneSubtype);
+                }
+                Toast.makeText(mContext, "Download 5 Success", Toast.LENGTH_SHORT).show();
+//                HomePage.categoryAdapter.notifyDataSetChanged();
+                download5 = true;
+                shallStartDataLoading();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(mContext,databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
     void shallStartDataLoading(){
-        if(download1&download2&download3){
+        if(download1&download2&download3&download4&download5){
             for(int i=0;i<mainGIList.size();i++){
                 new Database(mContext).addProducts(mainGIList.get(i));
 
@@ -188,6 +228,14 @@ public class downloadThread implements Runnable {
             for (int i=0;i<mTypeList.size();i++){
 
                 new Database(mContext).addTypes(mTypeList.get(i));
+            }
+            for (int i=0;i<mSellerList.size();i++){
+
+                new Database(mContext).addSellers(mSellerList.get(i));
+            }
+            for (int i=0;i<mSubtypeList.size();i++){
+
+                new Database(mContext).addSubtypes(mTypeList.get(i));
             }
 
 

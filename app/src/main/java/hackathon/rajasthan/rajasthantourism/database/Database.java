@@ -19,6 +19,7 @@ import java.util.List;
 import hackathon.rajasthan.rajasthantourism.model.Constants;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 import hackathon.rajasthan.rajasthantourism.model.Products;
+import hackathon.rajasthan.rajasthantourism.model.Seller;
 import hackathon.rajasthan.rajasthantourism.model.Type;
 
 
@@ -63,7 +64,57 @@ public class Database extends SQLiteAssetHelper {
                 type.getDpurl());
         db.execSQL(query);
     }
+    public void addSubtypes(Type type){
+        SQLiteDatabase db  = getReadableDatabase();
+        String query = String.format("INSERT INTO Subtype(SubtypeName,SubtypeUrl) VALUES('%s','%s');",
+                type.getName(),
+                type.getDpurl());
+        db.execSQL(query);
+    }
+    public void addSellers(Seller seller){
+        SQLiteDatabase db  = getReadableDatabase();
+        String query = String.format("INSERT INTO Seller(SellerName,SellerAddress,SellerContact,SellerLat,SellerLon,SellerType) VALUES('%s','%s','%s','%s','%s','%s');",
+                seller.getName(),
+                seller.getType(),
+                seller.getAddress(),
+                seller.getContact(),
+                seller.getLat(),
+                seller.getLon(),
+                seller.getType());
 
+        db.execSQL(query);
+    }
+
+    public Products getCurrentProductObject(String productName){
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = {"productName,productType,productSubtype,productDestination,productUrl,productDescription"};
+        String selection = "productName = ?";
+        String[] selectionArgs = {productName};
+        String sqlTable= "Products";
+        qb.setTables(sqlTable);
+        Cursor c = qb.query(db,sqlSelect,selection,selectionArgs,null,null,null);
+
+        Products result =new Products();
+        if(c!=null && c.moveToFirst()){
+            do {
+                result = new Products(
+                        c.getString(c.getColumnIndex("productName")),
+                        c.getString(c.getColumnIndex("productSubtype")),
+                        c.getString(c.getColumnIndex("productDestination")),
+                        c.getString(c.getColumnIndex("productType")),
+                        c.getString(c.getColumnIndex("productUrl")),
+                        c.getString(c.getColumnIndex("productDescription")),
+                        c.getString(c.getColumnIndex("productDescription"))
+
+                );}
+
+            while (c.moveToNext());
+
+        }
+        return result;
+    }
 
     public List<Destinations> getDestinations(){
         SQLiteDatabase db = getReadableDatabase();
