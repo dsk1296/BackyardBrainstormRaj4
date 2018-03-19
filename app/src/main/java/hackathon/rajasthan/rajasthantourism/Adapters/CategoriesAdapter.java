@@ -75,10 +75,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     @Override
     public void onBindViewHolder(CategoriesViewHolder holder, final int position) {
 
-        for (int i=0;i<listCategories.size();i++){
+     /*   for (int i=0;i<listCategories.size();i++){
             Log.d("typeLi",listCategories.get(i).getName());
         }
-
+*/
 
         if (listCategories.get(position).getName()!=null){
         holder.mName.setText(listCategories.get(position).getName());}
