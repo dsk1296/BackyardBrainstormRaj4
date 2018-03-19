@@ -89,7 +89,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         Glide.with(context)
                 .load(uri)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .apply(RequestOptions.circleCropTransform())
                 .into(holder.mDp);}
         final Type clickitem = listCategories.get(position);
 

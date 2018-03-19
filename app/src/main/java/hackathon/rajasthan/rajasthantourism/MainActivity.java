@@ -36,12 +36,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import hackathon.rajasthan.rajasthantourism.Adapters.CategoriesAdapter;
 import hackathon.rajasthan.rajasthantourism.Adapters.DestinationsAdapter;
 
 
 import hackathon.rajasthan.rajasthantourism.database.Database;
 
+import hackathon.rajasthan.rajasthantourism.fragments.BannerMainFragment;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 import hackathon.rajasthan.rajasthantourism.model.Type;
 
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView recyclerDestinations, recyclerCategories;
-    ViewPager bannerViewpager;
+    AutoScrollViewPager bannerViewpager;
     ScrollView contentMain;
     ProgressBar progressBar;
     ConstraintLayout constraintUnsuccessful;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     public  List<Destinations> mDisplayDestinationList = new ArrayList<>();
     private LinearLayoutManager categoriesLayoutManager;
     private LinearLayoutManager destinationsLayoutManager;
-    public static ArrayList<Destinations> mDisplayDestinationsList = new ArrayList<>();
+
 
     private DatabaseReference mDatabase;
     private FragmentPagerAdapter adapter;
@@ -75,18 +77,19 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         contentMain = findViewById(R.id.contentMain);
         bannerViewpager = findViewById(R.id.viewpagerMainActivity);
+
         recyclerCategories= findViewById(R.id.recyclerCategories);
         recyclerDestinations= findViewById(R.id.recyclerDestinations);
+        categoriesLayoutManager = new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false);
+        destinationsLayoutManager = new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false);
         progressBar = findViewById(R.id.progressBar);
         constraintUnsuccessful = findViewById(R.id.constraintUnsuccessful);
 
 
-
-
-
-
         mDisplayDestinationList = new Database(MainActivity.this).getDestinations();
         mDisplayTypeList = new Database(MainActivity.this).getType();
+        recyclerDestinations.setLayoutManager(destinationsLayoutManager);
+        recyclerCategories.setLayoutManager(categoriesLayoutManager);
 
         categoriesAdapter = new CategoriesAdapter(mDisplayTypeList,MainActivity.this);
         destinationsAdapter = new DestinationsAdapter(mDisplayDestinationList,MainActivity.this);
@@ -147,8 +150,8 @@ public class MainActivity extends AppCompatActivity
                         return bannerImgUrls.size();
                     }
                 };
-                autoScrollViewPager.setAdapter(adapter);
-                autoScrollViewPager.startAutoScroll();
+                bannerViewpager.setAdapter(adapter);
+                bannerViewpager.startAutoScroll();
             }
 
             @Override
@@ -156,14 +159,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-    }
-
-
-
-
-
-
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
