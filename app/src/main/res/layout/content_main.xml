@@ -41,12 +41,11 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:visibility="visible">
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/imgBanner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:alpha="0"
                     android:contentDescription="MainActivity Viewpager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
