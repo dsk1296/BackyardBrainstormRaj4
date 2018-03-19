@@ -18,7 +18,7 @@
 
 
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorSecondary">@color/black</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
