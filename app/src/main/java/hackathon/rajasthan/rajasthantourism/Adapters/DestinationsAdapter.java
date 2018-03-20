@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,8 @@ import java.util.List;
 
 import hackathon.rajasthan.rajasthantourism.Interfaces.ItemClickListener;
 import hackathon.rajasthan.rajasthantourism.MainActivity;
-import hackathon.rajasthan.rajasthantourism.model.Constants;
 import hackathon.rajasthan.rajasthantourism.R;
+import hackathon.rajasthan.rajasthantourism.model.Constants;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 
 /**
@@ -84,7 +83,7 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
             holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_coloured));
         }
         if (listDestinations.get(position).getName() != null) {
-            holder.mName.setText(listDestinations.get(position).getName());
+            holder.mName.setText(listDestinations.get(position).getName().toUpperCase());
         }
 
         if (listDestinations.get(position).getDpurl() !=null){

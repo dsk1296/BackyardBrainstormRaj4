@@ -45,7 +45,6 @@ dependencies {
         exclude module: 'support-v4'
     }
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
 
     implementation 'com.twitter.sdk.android:twitter:3.1.1'
     compile 'com.google.android.gms:play-services-location:11.8.0'

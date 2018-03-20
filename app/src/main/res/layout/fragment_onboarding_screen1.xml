@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Rajasthan Tourism"
+        android:text="Incredible Rajasthan"
         android:textColor="@android:color/background_light"
         android:textSize="48sp"
         tools:ignore="HardcodedText" />
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Explore Rajasthan!"
+        android:text="Immerse in the Real Esscence of Rajasthan."
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textSize="24sp" />
