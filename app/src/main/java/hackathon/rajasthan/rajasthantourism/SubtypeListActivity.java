@@ -42,9 +42,11 @@ public class SubtypeListActivity extends AppCompatActivity {
         if(Constants.currentCity.equals("")){
 
             typeList = new Database(SubtypeListActivity.this).getAllSubtype(TypeName);
+            for (int i=0;i<typeList.size();i++){
+                String Typename = typeList.get(i).getName();
+            }
             subtypeAdapter = new SubtypeAdapter(typeList,SubtypeListActivity.this,TypeName);
             ProductListRecycler.setAdapter(subtypeAdapter);
-
 
             //TODO: LOAD ALL THE SUBTYPES OF WHOLE RAJASTHAN FROM SQL TO RECYCLERVIEW
         }

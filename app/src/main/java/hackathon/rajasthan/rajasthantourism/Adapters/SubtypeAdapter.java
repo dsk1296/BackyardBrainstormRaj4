@@ -79,9 +79,6 @@ public class SubtypeAdapter extends RecyclerView.Adapter<SubtypeAdapter.SubtypeV
     @Override
     public void onBindViewHolder(SubtypeViewHolder holder, final int position) {
 
-        for (int i=0;i<listCategories.size();i++){
-            Log.d("typeLi",listCategories.get(i).getName());
-        }
 
 
         if (listCategories.get(position).getName()!=null){
