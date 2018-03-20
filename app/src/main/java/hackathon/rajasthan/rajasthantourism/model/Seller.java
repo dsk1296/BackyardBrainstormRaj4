@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class Seller implements Serializable {
 
-    private String name,address,contact,type,desc;
+    private String name,address,contact, sells,desc;
     private double lon,lat;
     @JsonIgnore
     private String uid;
@@ -16,11 +16,11 @@ public class Seller implements Serializable {
 
     }
 
-    public Seller(String name, String address, String contact, String type, String desc, double lon, double lat, String uid) {
+    public Seller(String name, String address, String contact, String sells, String desc, double lon, double lat) {
         this.name = name;
         this.address = address;
         this.contact = contact;
-        this.type = type;
+        this.sells = sells;
         this.desc = desc;
         this.lon = lon;
         this.lat = lat;
@@ -51,12 +51,12 @@ public class Seller implements Serializable {
         this.contact = contact;
     }
 
-    public String getType() {
-        return type;
+    public String getSells() {
+        return sells;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSells(String sells) {
+        this.sells = sells;
     }
 
     public String getDesc() {

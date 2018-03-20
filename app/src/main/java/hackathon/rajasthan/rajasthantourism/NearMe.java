@@ -41,7 +41,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import hackathon.rajasthan.rajasthantourism.database.Database;
+import hackathon.rajasthan.rajasthantourism.model.Seller;
+
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 import static hackathon.rajasthan.rajasthantourism.R.id.map;
 
 public class NearMe extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
@@ -58,6 +65,7 @@ public class NearMe extends AppCompatActivity implements GoogleApiClient.Connect
     private int count = 0;
     private LatLng currentLoc;
     private ProgressDialog p;
+    List<Seller> sellerList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +94,12 @@ public class NearMe extends AppCompatActivity implements GoogleApiClient.Connect
         progress.setTitle("Fetching The Location");
         progress.setMessage("Please Wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);*/
+
+        sellerList = new Database(NearMe.this).getAllSellers();
+        for (int i =0; i<sellerList.size();i++){
+            Log.d("sellerlist",sellerList.get(i).getName() + sellerList.get(i).getDesc() + sellerList.get(i).getContact() +
+                    sellerList.get(i).getAddress() + sellerList.get(i).getSells() + sellerList.get(i).getLat() + sellerList.get(i).getLat());
+        }
     }
 
     @Override
@@ -316,10 +330,16 @@ public class NearMe extends AppCompatActivity implements GoogleApiClient.Connect
         if(count==2){
             Marker markerCurrentLoc = mMap.addMarker(new MarkerOptions().position(currentLoc).title("My Location"));
             markerCurrentLoc.showInfoWindow();
+            Log.d("currentloc",currentLoc.latitude +"and "+currentLoc.longitude +"");
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(currentLoc)
                     .zoom(12).build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            for (int i=0;i<sellerList.size();i++){
+                LatLng markloc = new LatLng(sellerList.get(i).getLon(), sellerList.get(i).getLat());
+                Marker markerLoc = mMap.addMarker(new MarkerOptions().position(markloc).title(sellerList.get(i).getName()).snippet(sellerList.get(i).getSells()));
+
+            }
         }
     }
 }

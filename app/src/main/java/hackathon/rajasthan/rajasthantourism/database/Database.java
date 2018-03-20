@@ -4,19 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import hackathon.rajasthan.rajasthantourism.model.Constants;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 import hackathon.rajasthan.rajasthantourism.model.Products;
 import hackathon.rajasthan.rajasthantourism.model.Seller;
@@ -73,14 +66,15 @@ public class Database extends SQLiteAssetHelper {
     }
     public void addSellers(Seller seller){
         SQLiteDatabase db  = getReadableDatabase();
-        String query = String.format("INSERT INTO Seller(SellerName,SellerAddress,SellerContact,SellerLat,SellerLon,SellerType) VALUES('%s','%s','%s','%s','%s','%s');",
+        String query = String.format("INSERT INTO Seller(SellerName,SellerAddress,SellerContact,SellerDesc,SellerLat,SellerLon,SellerType) VALUES('%s','%s','%s','%s','%s','%s','%s');",
                 seller.getName(),
-                seller.getType(),
+                seller.getSells(),
                 seller.getAddress(),
                 seller.getContact(),
                 seller.getLat(),
                 seller.getLon(),
-                seller.getType());
+                seller.getSells(),
+                seller.getDesc());
 
         db.execSQL(query);
     }
@@ -89,13 +83,12 @@ public class Database extends SQLiteAssetHelper {
         SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-        String[] sqlSelect = {"productName,productType,productSubtype,productDestination,productUrl,productDescription"};
+        String[] sqlSelect = {"productName,productType,productSubtype,productDestination,productUrl,productDescription,productSeller"};
         String selection = "productName = ?";
         String[] selectionArgs = {productName};
         String sqlTable= "Products";
         qb.setTables(sqlTable);
         Cursor c = qb.query(db,sqlSelect,selection,selectionArgs,null,null,null);
-
         Products result =new Products();
         if(c!=null && c.moveToFirst()){
             do {
@@ -106,13 +99,15 @@ public class Database extends SQLiteAssetHelper {
                         c.getString(c.getColumnIndex("productType")),
                         c.getString(c.getColumnIndex("productUrl")),
                         c.getString(c.getColumnIndex("productDescription")),
-                        c.getString(c.getColumnIndex("productDescription"))
-
+                        c.getString(c.getColumnIndex("productDescription")),
+                        c.getString(c.getColumnIndex("productSeller"))
                 );}
 
             while (c.moveToNext());
 
+
         }
+
         return result;
     }
 
@@ -226,6 +221,7 @@ public class Database extends SQLiteAssetHelper {
 
                 ));}
             while (c.moveToNext());
+            c.close();
         }
         return result;
 
@@ -275,6 +271,7 @@ public class Database extends SQLiteAssetHelper {
 
                 ));}
             while (c.moveToNext());
+            c.close();
         }
         return result;
 
@@ -299,10 +296,40 @@ public class Database extends SQLiteAssetHelper {
 
                 ));}
             while (c.moveToNext());
+            c.close();
         }
         return result;
 
     }
+
+    public List<Seller> getAllSellers(){
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = {"SellerName,SellerAddress,SellerContact,SellerType,SellerDesc,SellerLat,SellerLon"};
+        String sqlTable= "Seller";
+
+        qb.setTables(sqlTable);
+        Cursor c = qb.query(db,sqlSelect,null,null,null,null,null);
+        final List<Seller> result =new ArrayList<>();
+        if(c != null && c.moveToFirst()){
+            do {
+                result.add(new Seller(
+                        c.getString(c.getColumnIndex("SellerName")),
+                        c.getString(c.getColumnIndex("SellerAddress")),
+                        c.getString(c.getColumnIndex("SellerContact")),
+                        c.getString(c.getColumnIndex("SellerType")),
+                        c.getString(c.getColumnIndex("SellerDesc")),
+                        c.getDouble(c.getColumnIndex("SellerLat")),
+                        c.getDouble(c.getColumnIndex("SellerLon"))
+
+                ));}
+            while (c.moveToNext());
+        }
+        return result;
+
+    }
+
 
 
 

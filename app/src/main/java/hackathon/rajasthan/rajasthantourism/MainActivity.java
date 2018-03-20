@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity
     private LinearLayoutManager categoriesLayoutManager;
     private LinearLayoutManager destinationsLayoutManager;
 
-
     private DatabaseReference mDatabase;
     private FragmentPagerAdapter adapter;
 
@@ -204,7 +203,7 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_nearme){
-           // startActivity(new Intent(MainActivity.this,));
+           startActivity(new Intent(MainActivity.this,NearMe.class));
 
         }
         else if (id == R.id.nav_social_feed){
