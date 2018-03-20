@@ -2,31 +2,22 @@ package hackathon.rajasthan.rajasthantourism;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,10 +31,7 @@ import java.util.List;
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import hackathon.rajasthan.rajasthantourism.Adapters.CategoriesAdapter;
 import hackathon.rajasthan.rajasthantourism.Adapters.DestinationsAdapter;
-
-
 import hackathon.rajasthan.rajasthantourism.database.Database;
-
 import hackathon.rajasthan.rajasthantourism.fragments.BannerMainFragment;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 import hackathon.rajasthan.rajasthantourism.model.Type;
@@ -161,14 +149,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -238,7 +218,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this,HelplineActivity.class));
 
         }
-        else if (id == R.id.nav_pined){
+        else if (id == R.id.nav_bookmarks){
 
         }
 

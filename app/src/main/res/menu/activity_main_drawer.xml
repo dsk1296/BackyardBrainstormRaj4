@@ -14,8 +14,8 @@
             android:title="SOS"
             android:icon="@drawable/ic_warning_black_24dp"/>
         <item
-            android:id="@+id/nav_pined"
-            android:title="Pined"
+            android:id="@+id/nav_bookmarks"
+            android:title="Bookmarks"
             android:icon="@drawable/ic_bookmark_black_24dp"/>
         <item
             android:id="@+id/nav_helpline"
