@@ -36,6 +36,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -45,10 +46,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hackathon.rajasthan.rajasthantourism.database.Database;
+import hackathon.rajasthan.rajasthantourism.model.Constants;
 import hackathon.rajasthan.rajasthantourism.model.Seller;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
 import static hackathon.rajasthan.rajasthantourism.R.id.map;
 
 public class NearMe extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
@@ -337,7 +338,7 @@ public class NearMe extends AppCompatActivity implements GoogleApiClient.Connect
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             for (int i=0;i<sellerList.size();i++){
                 LatLng markloc = new LatLng(sellerList.get(i).getLon(), sellerList.get(i).getLat());
-                Marker markerLoc = mMap.addMarker(new MarkerOptions().position(markloc).title(sellerList.get(i).getName()).snippet(sellerList.get(i).getSells()));
+                Marker markerLoc = mMap.addMarker(new MarkerOptions().position(markloc).title(sellerList.get(i).getName()).snippet(sellerList.get(i).getDesc()).icon(BitmapDescriptorFactory.fromResource(Constants.getIconId(sellerList.get(i).getSells()))));
 
             }
         }
