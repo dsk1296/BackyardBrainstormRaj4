@@ -338,8 +338,7 @@ public class NearMe extends AppCompatActivity implements GoogleApiClient.Connect
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             for (int i=0;i<sellerList.size();i++){
                 LatLng markloc = new LatLng(sellerList.get(i).getLon(), sellerList.get(i).getLat());
-                Marker markerLoc = mMap.addMarker(new MarkerOptions().position(markloc).title(sellerList.get(i).getName()).snippet(sellerList.get(i).getDesc()).icon(BitmapDescriptorFactory.fromResource(Constants.getIconId(sellerList.get(i).getSells()))));
-
+                Marker markerLoc = mMap.addMarker(new MarkerOptions().position(markloc).title(sellerList.get(i).getName()).snippet(sellerList.get(i).getSells()).icon(BitmapDescriptorFactory.fromResource(Constants.getIconId(sellerList.get(i).getSells()))));
             }
         }
     }

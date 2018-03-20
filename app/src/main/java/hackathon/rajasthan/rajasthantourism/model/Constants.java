@@ -17,10 +17,10 @@ public class Constants {
 
     public static int getIconId(String type){
         if(type.equals("handicraft")){
-            return R.drawable.paint_palette;
+            return R.drawable.paintpalette;
         }
         else if(type.equals("food")){
-            return R.drawable.cutlery;
+            return R.drawable.restaurant;
         }
 
         else if(type.equals("services")){
@@ -28,8 +28,8 @@ public class Constants {
         }
 
         else if(type.equals("places")){
-            return R.drawable.gate_of_india;
+            return R.drawable.indiagate;
         }
-        else{return R.drawable.gate_of_india;}
+        else{return R.drawable.indiagate;}
     }
 }
