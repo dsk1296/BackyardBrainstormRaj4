@@ -1,12 +1,9 @@
 package hackathon.rajasthan.rajasthantourism.utils;
 
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
-
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import hackathon.rajasthan.rajasthantourism.IntroActivity;
 import hackathon.rajasthan.rajasthantourism.database.Database;
 import hackathon.rajasthan.rajasthantourism.model.Destinations;
 import hackathon.rajasthan.rajasthantourism.model.Products;
@@ -122,7 +120,7 @@ public class downloadThread implements Runnable {
                 oneType.setTypeProductsList(k);
                 mTypeList.add(oneType);
             }*/
-            Toast.makeText(mContext, "download 1 success", Toast.LENGTH_LONG).show();
+            ((IntroActivity)mContext).updateProgress();
 //                HomePage.statesAdapter.notifyDataSetChanged();
 //                HomePage.categoryAdapter.notifyDataSetChanged();
             download1 = true;
@@ -143,7 +141,7 @@ public class downloadThread implements Runnable {
                     Destinations oneDest = oneData.getValue(Destinations.class);
                     destinationsList.add(oneDest);
                 }
-                Toast.makeText(mContext, "Download 2 Success", Toast.LENGTH_SHORT).show();
+                ((IntroActivity)mContext).updateProgress();
 //                HomePage.statesAdapter.notifyDataSetChanged();
                 download2 = true;
                 shallStartDataLoading();
@@ -164,7 +162,7 @@ public class downloadThread implements Runnable {
                     Type oneType = oneTypeData.getValue(Type.class);
                     mTypeList.add(oneType);
                 }
-                Toast.makeText(mContext, "Download 3 Success", Toast.LENGTH_SHORT).show();
+                ((IntroActivity)mContext).updateProgress();
 //                HomePage.categoryAdapter.notifyDataSetChanged();
                 download3 = true;
                 shallStartDataLoading();
@@ -182,7 +180,7 @@ public class downloadThread implements Runnable {
                     Seller oneSeller = oneSellerData.getValue(Seller.class);
                     mSellerList.add(oneSeller);
                 }
-                Toast.makeText(mContext, "Download 4 Success", Toast.LENGTH_SHORT).show();
+                ((IntroActivity)mContext).updateProgress();
 //                HomePage.categoryAdapter.notifyDataSetChanged();
                 download4 = true;
                 shallStartDataLoading();
@@ -201,7 +199,7 @@ public class downloadThread implements Runnable {
                     Type oneSubtype = oneSubtypeData.getValue(Type.class);
                     mSubtypeList.add(oneSubtype);
                 }
-                Toast.makeText(mContext, "Download 5 Success", Toast.LENGTH_SHORT).show();
+                ((IntroActivity)mContext).updateProgress();
 //                HomePage.categoryAdapter.notifyDataSetChanged();
                 download5 = true;
                 shallStartDataLoading();

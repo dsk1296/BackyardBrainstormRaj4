@@ -1,5 +1,6 @@
 package hackathon.rajasthan.rajasthantourism;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -20,10 +21,18 @@ import hackathon.rajasthan.rajasthantourism.utils.downloadThread;
 
 public class IntroActivity extends AppIntro {
     downloadThread downloadThread1;
+    ProgressDialog progress;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progress = new ProgressDialog(this);
+        progress.setMessage("Configuring");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setCancelable(false);
+        progress.show();
         checkOnBoardingStatus();
     }
 
@@ -92,5 +101,13 @@ public class IntroActivity extends AppIntro {
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
         setVibrate(true);
         setVibrateIntensity(40);
+    }
+
+
+    public void updateProgress(){
+        count++;
+        if(count==5){
+            progress.hide();
+        }
     }
 }
