@@ -90,7 +90,8 @@ public class SellerActivity extends AppCompatActivity implements GoogleApiClient
                 onBackPressed();
                 return super.onOptionsItemSelected(item);
             case R.id.action_navigate:
-
+                initiateChecking();
+                return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }
