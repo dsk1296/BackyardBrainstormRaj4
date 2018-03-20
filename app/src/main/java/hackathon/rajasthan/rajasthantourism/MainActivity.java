@@ -2,7 +2,7 @@ package hackathon.rajasthan.rajasthantourism;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,8 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -43,8 +41,6 @@ public class MainActivity extends AppCompatActivity
     RecyclerView recyclerDestinations, recyclerCategories;
     AutoScrollViewPager bannerViewpager;
     ScrollView contentMain;
-    ProgressBar progressBar;
-    ConstraintLayout constraintUnsuccessful;
     DestinationsAdapter destinationsAdapter;
     CategoriesAdapter categoriesAdapter;
 
@@ -56,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
     private DatabaseReference mDatabase;
     private FragmentPagerAdapter adapter;
+    private Parcelable recyclerViewState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +67,6 @@ public class MainActivity extends AppCompatActivity
         recyclerDestinations= findViewById(R.id.recyclerDestinations);
         categoriesLayoutManager = new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false);
         destinationsLayoutManager = new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false);
-        progressBar = findViewById(R.id.progressBar);
-        constraintUnsuccessful = findViewById(R.id.constraintUnsuccessful);
 
 
         mDisplayDestinationList = new Database(MainActivity.this).getDestinations();
@@ -83,12 +78,6 @@ public class MainActivity extends AppCompatActivity
         destinationsAdapter = new DestinationsAdapter(mDisplayDestinationList,MainActivity.this);
         recyclerCategories.setAdapter(categoriesAdapter);
         recyclerDestinations.setAdapter(destinationsAdapter);
-
-
-
-
-        progressBar.setVisibility(View.GONE);
-        contentMain.setVisibility(View.VISIBLE);
 /*
         if(InternetChecker.isOnline(MainActivity.this)){
             if(*//*SQL EMPTY*//*){
@@ -228,8 +217,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public  void refreshDestination(String destinationName){
-
-        destinationsAdapter.notifyItemRangeChanged(0, destinationsAdapter.getItemCount());
+        recyclerViewState = recyclerDestinations.getLayoutManager().onSaveInstanceState();
 
         //TODO:REFRESH CATEGORIES ARRAYLIST FOR THE SELECTED CITY USING SQL
         List<Type> typeList= new ArrayList<>();
@@ -239,8 +227,11 @@ public class MainActivity extends AppCompatActivity
             typeList.add(type);
         }
         recyclerCategories.setAdapter(new CategoriesAdapter(typeList,MainActivity.this));
-        recyclerCategories.invalidate();
-        //categoriesAdapter.notifyDataSetChanged();
+        recyclerDestinations.setAdapter(new DestinationsAdapter(new Database(this).getDestinations(),this));
+        categoriesAdapter.notifyDataSetChanged();
+        recyclerDestinations.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        //destinationsAdapter.notifyItemRangeChanged(0,new Database(this).getDestinations().size()-1);
+
     }
 
 }

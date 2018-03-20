@@ -1,9 +1,10 @@
 package hackathon.rajasthan.rajasthantourism.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
 
         TextView mName;
         ImageView mDp;
+        CardView cardImg;
         ItemClickListener itemClickListener;
 
 
@@ -46,6 +48,7 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
 
             mName = itemView.findViewById(R.id.card_name);
             mDp = itemView.findViewById(R.id.card_dp);
+            cardImg = itemView.findViewById(R.id.card_img);
 
             itemView.setOnClickListener(this);
         }
@@ -80,7 +83,9 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
     public void onBindViewHolder(DestinationsViewHolder holder, final int position) {
 
         if(Constants.currentCity.equals(listDestinations.get(position).getName())){
-            holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_coloured));
+            //holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_coloured));
+            holder.cardImg.setCardBackgroundColor((Color.parseColor("#44FF0000")));
+
         }
         if (listDestinations.get(position).getName() != null) {
             holder.mName.setText(listDestinations.get(position).getName().toUpperCase());
@@ -111,7 +116,8 @@ public class DestinationsAdapter extends RecyclerView.Adapter<DestinationsAdapte
     @Override
     public void onViewAttachedToWindow(DestinationsViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-        holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_colourless));
+        //holder.mDp.setBackground(ContextCompat.getDrawable(context, R.drawable.image_circle_colourless));
+        //holder.cardImg.setCardBackgroundColor(Color.parseColor("#000000"));
     }
 
     @Override
