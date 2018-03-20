@@ -17,7 +17,7 @@ import hackathon.rajasthan.rajasthantourism.model.Products;
 
 public class ProductActivity extends AppCompatActivity {
 
-    ImageView imgProduct;
+    ImageView imgProduct,imgPlaceholder;
     TextView txtName, txtDestination, txtDescription, txtFindSellers;
     String ProductName;
 
@@ -31,6 +31,7 @@ public class ProductActivity extends AppCompatActivity {
         txtDescription = findViewById(R.id.txtDescription);
         txtFindSellers = findViewById(R.id.txtFindSellers);
         imgProduct = findViewById(R.id.imgProducts);
+        imgPlaceholder = findViewById(R.id.imgPlaceholder);
 
         if (getIntent()!=null){
             ProductName = getIntent().getStringExtra("ProductName");
@@ -42,8 +43,8 @@ public class ProductActivity extends AppCompatActivity {
             Uri uri = Uri.parse(products.getUrl());
             Log.d("url",products.getUrl());
             Glide.with(ProductActivity.this)
-                    .load(uri)
-                    .into(imgProduct);
+                    .load(products.getUrl())
+                    .into(imgPlaceholder);
         }
 
         //TODO: Set the values of the views using the data from the SQL

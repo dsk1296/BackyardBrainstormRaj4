@@ -78,20 +78,19 @@ public class downloadThread implements Runnable {
                 String currentUID=oneData.getKey();
                 currentProduct.setUid(currentUID);
 
-                DataSnapshot sellerData=oneData.child("sellers");
-                ArrayList<String> oneSellersList= new ArrayList<>();
-
+          /*      DataSnapshot sellerData=oneData.child("seller");
+                String SellerCon = "";
                 for(DataSnapshot oneSellerData : sellerData.getChildren()){
                     String oneSeller=oneSellerData.getValue(String.class);
-                    oneSellersList.add(oneSeller);
+                    SellerCon = SellerCon+","+oneSeller;
                 }
-                currentProduct.setSeller(oneSellersList);
+                currentProduct.setSeller();*/
                 mainGIList.add(currentProduct);
             }
     /*        for (int i = 0; i < mainGIList.size(); i++) {
 
                 String currentDestination = mainGIList.get(i).getDestination();
-                String currentType = mainGIList.get(i).getType();
+                String currentType = mainGIList.get(i).getSells();
                 ArrayList<Products> destinationList = destinationMapping.get(currentDestination);
                 ArrayList<Products> typeList = typeMapping.get(currentType);
 
@@ -235,7 +234,7 @@ public class downloadThread implements Runnable {
             }
             for (int i=0;i<mSubtypeList.size();i++){
 
-                new Database(mContext).addSubtypes(mTypeList.get(i));
+                new Database(mContext).addSubtypes(mSubtypeList.get(i));
             }
 
 
